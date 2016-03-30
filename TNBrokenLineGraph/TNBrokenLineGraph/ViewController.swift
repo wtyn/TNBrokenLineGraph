@@ -15,7 +15,7 @@ class ViewController: UIViewController {
         let chartView = TNBrokenLineGraphView(frame: CGRectMake(20, 50, 300, 200))
         self.view.addSubview(chartView)
 
-      
+       // 终于看到了
         
         print("改了代码,你能看到吗")
         
