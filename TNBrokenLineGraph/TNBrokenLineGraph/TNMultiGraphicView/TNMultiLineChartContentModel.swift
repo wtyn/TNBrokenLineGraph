@@ -8,8 +8,9 @@
 
 import UIKit
 
+
 // 折线的属性模型
-class TNBrokenLineGraphModel: NSObject {
+class TNMultiLineChartContentModel: NSObject {
 
     var titleStr: NSString? //该线的标题
     var lineColor: UIColor? // 线条的颜色

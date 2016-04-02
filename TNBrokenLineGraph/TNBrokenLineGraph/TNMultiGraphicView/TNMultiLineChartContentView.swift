@@ -14,11 +14,11 @@ enum TNXCoordinateValueShowType: Int {
 
 import UIKit
 
-class TNBrokenLineGraphView: UIView {
+class TNMultiLineChartContentView: UIView {
 
     // 绘制线的模型
-    var _brokenLineModelArr: [TNBrokenLineGraphModel] = []
-    var brokenLineModelArr: [TNBrokenLineGraphModel] {
+    var _brokenLineModelArr: [TNMultiLineChartContentModel] = []
+    var brokenLineModelArr: [TNMultiLineChartContentModel] {
         get{
             return _brokenLineModelArr
         }
@@ -37,15 +37,22 @@ class TNBrokenLineGraphView: UIView {
     // x轴的坐标值间距
     var xValueSpace: CGFloat!
     
+    
 
     // x轴坐标的个数
     var xValueCount: Int!
     // y轴坐标的个数
     var yValueCount: Int!
     
+    
     // x,y 最大坐标值
     var xMaxValue: CGFloat!
     var yMaxValue: CGFloat!
+    
+    
+    // 是否显示值
+    var showValues: Bool = false // 默认不显示
+    
     
     // 动画显示时长
     var annimationDuration: Double!
@@ -246,8 +253,13 @@ class TNBrokenLineGraphView: UIView {
         }
         
         
-        // 绘制折线
+        //MARK: - 绘制折线
         for lineModel in self.brokenLineModelArr {
+            
+            // 
+            let valueFont = UIFont.systemFontOfSize(12.0)
+            let valueAttr = [NSFontAttributeName: valueFont]
+            let totalWid = self.bounds.width
             
             // 获得路径
             let funcLinePath = UIBezierPath()
@@ -255,18 +267,51 @@ class TNBrokenLineGraphView: UIView {
             funcLinePath.moveToPoint(firstPoint)
             funcLinePath.lineCapStyle = .Round
             funcLinePath.lineJoinStyle = .Round
+            
             var index: Int = 0
+            var prevousValueY: CGFloat = 0.0
+            
             for pointValue in lineModel.valueArr! {
+                
+                let point = self.getPointFromeValues(pointValue)
                 if index != 0 {
-                    let point = self.getPointFromeValues(pointValue)
                     funcLinePath.addLineToPoint(point)
                     funcLinePath.moveToPoint(point)
                     funcLinePath.stroke()
                 }
+                
+                // 绘制文字
+                if self.showValues {
+                    
+                    // 绘制值
+                    let valuePointStr = NSString(format: "(%.1f,%.1f)", pointValue.x,pointValue.y)
+                    let valuePointStrWid = valuePointStr.boundingRectWithSize(CGSizeMake(CGFloat(MAXFLOAT), CGFloat(MAXFLOAT)), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: valueAttr, context: nil).width
+                
+                    
+                    // 判断值显示在线的下面还是上面
+                    var ySpace: CGFloat
+                    if prevousValueY <=  pointValue.y {
+                        ySpace = -15.0
+                    }else{
+                        ySpace = 0.0
+                    }
+                    
+                    if (point.x + (valuePointStrWid / 2.0)) < totalWid - 5  {
+                        valuePointStr.drawAtPoint(CGPointMake(point.x - (valuePointStrWid / 2.0), point.y + ySpace), withAttributes: valueAttr)
+                    }else{
+                        valuePointStr.drawAtPoint(CGPointMake(totalWid - valuePointStrWid - 5, point.y + ySpace), withAttributes: valueAttr)
+                    }
+                    
+                }
+                prevousValueY = pointValue.y
                 index =  index + 1
+                
             }
             
            
+            
+            
+            
             
             //创建CAShapLayer
             let lineLayer = self.setUpLineLayer(lineModel.lineColor!, width: CGFloat(lineModel.width!))
