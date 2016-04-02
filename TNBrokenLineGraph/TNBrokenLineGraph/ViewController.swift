@@ -14,6 +14,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         self.creatChartView()
       
     }
@@ -54,6 +55,14 @@ class ViewController: UIViewController {
         
         let lineArr = [line1,line2,line3,line4]
         chartView.brokenLineModelArr = lineArr
+
+        
+       let graphicView = TNMultiGraphicView(frame: CGRectMake(0, 64, 200, 200))
+        graphicView.xMaxValue = 100
+        graphicView.xValueCount = 10
+        graphicView
+
+
         
     }
 
