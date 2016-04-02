@@ -17,8 +17,22 @@ import UIKit
 class TNBrokenLineGraphView: UIView {
 
     // 绘制线的模型
-    var brokenLineModelArr: [TNBrokenLineGraphModel] = []
+    var _brokenLineModelArr: [TNBrokenLineGraphModel] = []
+    var brokenLineModelArr: [TNBrokenLineGraphModel] {
+        get{
+            return _brokenLineModelArr
+        }
+        
+        set {
+            _brokenLineModelArr = newValue
+            self.setNeedsDisplay()
+        }
+    }
     
+    
+    // 单位
+    var xAxisUnit: NSString?
+    var yAxisUnit: NSString?
 
     // x轴的坐标值间距
     var xValueSpace: CGFloat!
@@ -32,6 +46,9 @@ class TNBrokenLineGraphView: UIView {
     // x,y 最大坐标值
     var xMaxValue: CGFloat!
     var yMaxValue: CGFloat!
+    
+    // 动画显示时长
+    var annimationDuration: Double!
     
     //原点坐标
     var _zeroPoint: CGPoint!
@@ -58,6 +75,8 @@ class TNBrokenLineGraphView: UIView {
     
     // MARK: - 重绘
     override func drawRect(rect: CGRect) {
+        super.drawRect(rect)
+        
         if xMaxValue == nil  {
             return
         }
@@ -70,9 +89,15 @@ class TNBrokenLineGraphView: UIView {
         // 绘制坐标系
         self.drawCoordinate()
         
+        // 添加单位
+        self.addXAxisUnit()
         
         // 绘制折线
         self.drawBrokenLine()
+        
+        // 绘制单位 和颜色线的标识
+        self.addIdentificationShow()
+        
         
 
     }
@@ -101,7 +126,7 @@ class TNBrokenLineGraphView: UIView {
         // 防止y值显示不全,重新设置 ySpace
         let yMaxValueStr = NSString(format: "%.1f", yMaxValue!)
         let yMaxValueSize = yMaxValueStr.boundingRectWithSize(CGSize(width: CGFloat(MAXFLOAT) , height:  CGFloat(MAXFLOAT)), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: xValueAttr, context: nil)
-        ySpace = yMaxValueSize.width + 2
+        ySpace = yMaxValueSize.width + 10
         
         
         // 获得原点坐标
@@ -117,7 +142,7 @@ class TNBrokenLineGraphView: UIView {
         xAxisPath.addLineToPoint(xAxisMaxPoint)
         CGContextAddPath(context, xAxisPath.CGPath)
         
-        print("x轴的终点坐标 \(xAxisMaxPoint)")
+       
         // 绘制x箭头
         let arrowAngle = CGFloat(M_PI / 6.0)
         let arrowLong: CGFloat = 10.0
@@ -193,6 +218,21 @@ class TNBrokenLineGraphView: UIView {
     }
     
     
+    // 单位
+    func addXAxisUnit() {
+        if self.xAxisUnit != nil {
+            let font = UIFont.systemFontOfSize(14)
+            let attr = [NSFontAttributeName: font]
+            let xAxisUnitWidth = self.xAxisUnit!.boundingRectWithSize(CGSize(width: CGFloat(MAXFLOAT) , height:  CGFloat(MAXFLOAT)), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: attr, context: nil).width
+            self.xAxisUnit!.drawAtPoint(CGPointMake(self.bounds.size.width - xAxisUnitWidth - 5, self.bounds.size.height - 50), withAttributes: attr)
+            
+        }
+        
+    }
+    
+    
+    
+    // 折线
     func drawBrokenLine() {
         
         // 清除绘制的轨迹线
@@ -233,7 +273,7 @@ class TNBrokenLineGraphView: UIView {
             lineLayer.path = funcLinePath.CGPath
             
             let pathAnimation = CABasicAnimation(keyPath: "strokeEnd")
-            pathAnimation.duration = 3.0
+            pathAnimation.duration = self.annimationDuration
             pathAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
             pathAnimation.fromValue = 0.0
             pathAnimation.toValue = 1.0
@@ -262,6 +302,84 @@ class TNBrokenLineGraphView: UIView {
         lineLayer.strokeColor = color.CGColor
         lineLayer.lineWidth = width
         return lineLayer
+        
+    }
+    
+    // 线的标题显示
+    func addIdentificationShow(){
+        
+        var maxTitleWidth: CGFloat = 0.0
+        let titleFont = UIFont.systemFontOfSize(11)
+        let attr = [NSFontAttributeName: titleFont]
+        for lineModel in _brokenLineModelArr { // 获得标题的最大宽度
+            
+             if _brokenLineModelArr.count > 1 {
+                
+                if lineModel.titleStr != nil {
+                    var titleStr: NSString
+                    if self.yAxisUnit == nil {
+                        titleStr = lineModel.titleStr!
+                        
+                    }else{
+                        titleStr = NSString.init(format: "%@(%@)",lineModel.titleStr!,self.yAxisUnit!)
+                    }
+
+                    let titleSize = titleStr.boundingRectWithSize(CGSizeMake(CGFloat(MAXFLOAT), CGFloat(MAXFLOAT)), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: attr, context: nil)
+                    if titleSize.width > maxTitleWidth {
+                        maxTitleWidth = titleSize.width
+                    }
+                    
+                }
+
+             }else{// 如果是一条线的话,只显示字体和单位
+                var titleStr: NSString
+                if self.yAxisUnit == nil { //没有单位
+                    if lineModel.titleStr != nil { // 有标题
+                        titleStr = lineModel.titleStr!
+                        titleStr.drawAtPoint( CGPointMake(_zeroPoint.x + 15.0, 5 ) , withAttributes: attr)
+                        return
+                    }
+                    
+                }else  { // 有单位
+                    if lineModel.titleStr != nil { // 有标题
+                        titleStr = NSString.init(format: "%@(%@)",lineModel.titleStr!,self.yAxisUnit!)
+                        titleStr.drawAtPoint( CGPointMake(_zeroPoint.x + 15.0, 5 ) , withAttributes: attr)
+                        return
+                    }else{ // 没有标题
+                        self.yAxisUnit!.drawAtPoint( CGPointMake(_zeroPoint.x + 15.0, 5 ) , withAttributes: attr)
+                        return
+                    }
+                    
+              }
+                
+               
+           }
+            
+        }
+        // 添加标题和线
+        let lineStr: NSString = "———"
+        let lineFont = UIFont.boldSystemFontOfSize(17)
+        var index = 0
+        for lineModel in _brokenLineModelArr {
+            
+            if lineModel.titleStr != nil {
+                var titleStr: NSString
+                if self.yAxisUnit == nil {
+                    titleStr = lineModel.titleStr!
+                }else{
+                    titleStr = NSString.init(format: "%@(%@)",lineModel.titleStr!,self.yAxisUnit!)
+                }
+
+                titleStr.drawAtPoint( CGPointMake(_zeroPoint.x + 15.0, 5 + CGFloat(index * 15)) , withAttributes: attr)
+                
+                let lineAttr: Dictionary<String,AnyObject> = [NSForegroundColorAttributeName: lineModel.lineColor! , NSFontAttributeName: lineFont]
+                lineStr.drawAtPoint(CGPointMake(maxTitleWidth + _zeroPoint.x + 20,  CGFloat(index * 15)), withAttributes: lineAttr)
+            }
+            index = index + 1
+            
+        }
+   
+    
         
     }
     
