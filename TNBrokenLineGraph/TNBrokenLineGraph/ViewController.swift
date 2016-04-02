@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    var chartView: TNMultiGraphicView!
+    var chartView: TNMultiLineChartView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +23,7 @@ class ViewController: UIViewController {
     func creatChartView() {
         
         
-        chartView = TNMultiGraphicView(frame: CGRectMake(0, 50, self.view.bounds.width, 200))
+        chartView = TNMultiLineChartView(frame: CGRectMake(0, 50, self.view.bounds.width, 200))
         chartView.contentSize = CGSizeMake(self.view.bounds.width * 3, 0)
         self.view.addSubview(chartView)
         
@@ -35,29 +35,30 @@ class ViewController: UIViewController {
         chartView.yAxisUnit = "元"
         chartView.xAxisUnit = "h/小时"
         chartView.annimationDuration = 4
+        chartView.showValues = true
         
         let wid = 1
         // 三条线
-        let line1 = TNBrokenLineGraphModel()
+        let line1 = TNMultiLineChartContentModel()
         line1.lineColor = UIColor.greenColor()
         line1.width = 5
         line1.titleStr = "领导的工资"
         line1.valueArr = [CGPointMake(1, 800),CGPointMake(2,560),CGPointMake(3, 400),CGPointMake(4,250),CGPointMake(5, 100),CGPointMake(6,500),CGPointMake(7, 690),CGPointMake(8,1000)]
         
         
-        let line2 = TNBrokenLineGraphModel()
+        let line2 = TNMultiLineChartContentModel()
         line2.lineColor = UIColor.redColor()
         line2.width = 3
         line2.titleStr = "技术工的工资"
         line2.valueArr = [CGPointMake(1, 600),CGPointMake(2,360),CGPointMake(3, 400),CGPointMake(4,750),CGPointMake(5, 100),CGPointMake(6,500),CGPointMake(7, 690),CGPointMake(8,1000)]
         
-        let line3 = TNBrokenLineGraphModel()
+        let line3 = TNMultiLineChartContentModel()
         line3.lineColor = UIColor.purpleColor()
         line3.width = 2
         line3.titleStr = "销售人员的工资"
         line3.valueArr = [CGPointMake(1, 1000),CGPointMake(2,160),CGPointMake(3, 800),CGPointMake(4,50),CGPointMake(5, 500),CGPointMake(6,100),CGPointMake(7, 800),CGPointMake(8,1000)]
         
-        let line4 = TNBrokenLineGraphModel()
+        let line4 = TNMultiLineChartContentModel()
         line4.lineColor = UIColor.orangeColor()
         line4.width = 1
         line4.titleStr = "普通员工的工资"

@@ -8,12 +8,12 @@
 
 import UIKit
 
-class TNMultiGraphicView: UIScrollView {
+class TNMultiLineChartView: UIScrollView {
 
     
     // 绘制线的模型
-    var _brokenLineModelArr: [TNBrokenLineGraphModel] = []
-    var brokenLineModelArr: [TNBrokenLineGraphModel] {
+    var _brokenLineModelArr: [TNMultiLineChartContentModel] = []
+    var brokenLineModelArr: [TNMultiLineChartContentModel] {
         get{
             return _brokenLineModelArr
         }
@@ -31,6 +31,9 @@ class TNMultiGraphicView: UIScrollView {
     // 动画显示时长,默认为1.5秒
     var annimationDuration: Double?
     
+    // 是否显示值
+    var showValues: Bool = false // 默认不显示
+    
     // 单位
     var xAxisUnit: NSString?
     var yAxisUnit: NSString?
@@ -46,7 +49,7 @@ class TNMultiGraphicView: UIScrollView {
     var yMaxValue: CGFloat?
     
     
-    var _brokenLineGraphView: TNBrokenLineGraphView!
+    var _brokenLineGraphView: TNMultiLineChartContentView!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -75,7 +78,7 @@ class TNMultiGraphicView: UIScrollView {
         }
         let brokenLineGraphViewFrame = CGRectMake(0, 0,contentWidth, self.bounds.size.height)
         if _brokenLineGraphView == nil {
-            _brokenLineGraphView = TNBrokenLineGraphView(frame: brokenLineGraphViewFrame)
+            _brokenLineGraphView = TNMultiLineChartContentView(frame: brokenLineGraphViewFrame)
             self.addSubview(_brokenLineGraphView)
         }else{
             _brokenLineGraphView.frame = brokenLineGraphViewFrame
@@ -87,6 +90,7 @@ class TNMultiGraphicView: UIScrollView {
         _brokenLineGraphView.yMaxValue = self.yMaxValue
         _brokenLineGraphView.xAxisUnit = self.xAxisUnit
         _brokenLineGraphView.yAxisUnit = self.yAxisUnit
+        _brokenLineGraphView.showValues = self.showValues
         if self.annimationDuration != nil {
             _brokenLineGraphView.annimationDuration = self.annimationDuration
         }else{

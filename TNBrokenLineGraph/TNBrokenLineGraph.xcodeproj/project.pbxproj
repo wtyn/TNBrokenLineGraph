@@ -14,8 +14,8 @@
 		B41651C41CAB72400081CBB7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B41651C21CAB72400081CBB7 /* LaunchScreen.storyboard */; };
 		B41651CF1CAB72400081CBB7 /* TNBrokenLineGraphTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41651CE1CAB72400081CBB7 /* TNBrokenLineGraphTests.swift */; };
 		B41651DA1CAB72400081CBB7 /* TNBrokenLineGraphUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41651D91CAB72400081CBB7 /* TNBrokenLineGraphUITests.swift */; };
-		B4FAE97C1CAFA7330082DA93 /* TNBrokenLineGraphModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FAE97B1CAFA7330082DA93 /* TNBrokenLineGraphModel.swift */; };
-		B4FAE97E1CAFA7370082DA93 /* TNBrokenLineGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FAE97D1CAFA7370082DA93 /* TNBrokenLineGraphView.swift */; };
+		B4FAE97C1CAFA7330082DA93 /* TNMultiLineChartContentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FAE97B1CAFA7330082DA93 /* TNMultiLineChartContentModel.swift */; };
+		B4FAE97E1CAFA7370082DA93 /* TNMultiLineChartContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FAE97D1CAFA7370082DA93 /* TNMultiLineChartContentView.swift */; };
 		B4FAE9801CAFA73C0082DA93 /* TNMultiGraphicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FAE97F1CAFA73C0082DA93 /* TNMultiGraphicView.swift */; };
 /* End PBXBuildFile section */
 
@@ -50,8 +50,8 @@
 		B41651D51CAB72400081CBB7 /* TNBrokenLineGraphUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TNBrokenLineGraphUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B41651D91CAB72400081CBB7 /* TNBrokenLineGraphUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TNBrokenLineGraphUITests.swift; sourceTree = "<group>"; };
 		B41651DB1CAB72400081CBB7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B4FAE97B1CAFA7330082DA93 /* TNBrokenLineGraphModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TNBrokenLineGraphModel.swift; sourceTree = "<group>"; };
-		B4FAE97D1CAFA7370082DA93 /* TNBrokenLineGraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TNBrokenLineGraphView.swift; sourceTree = "<group>"; };
+		B4FAE97B1CAFA7330082DA93 /* TNMultiLineChartContentModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TNMultiLineChartContentModel.swift; sourceTree = "<group>"; };
+		B4FAE97D1CAFA7370082DA93 /* TNMultiLineChartContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TNMultiLineChartContentView.swift; sourceTree = "<group>"; };
 		B4FAE97F1CAFA73C0082DA93 /* TNMultiGraphicView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TNMultiGraphicView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -105,7 +105,7 @@
 			children = (
 				B41651B91CAB72400081CBB7 /* AppDelegate.swift */,
 				B41651BB1CAB72400081CBB7 /* ViewController.swift */,
-				B4FAE97A1CAFA7090082DA93 /* TNMultiGraphicView */,
+				B4FAE97A1CAFA7090082DA93 /* TNMultiLineChartView */,
 				B41651BD1CAB72400081CBB7 /* Main.storyboard */,
 				B41651C01CAB72400081CBB7 /* Assets.xcassets */,
 				B41651C21CAB72400081CBB7 /* LaunchScreen.storyboard */,
@@ -132,13 +132,14 @@
 			path = TNBrokenLineGraphUITests;
 			sourceTree = "<group>";
 		};
-		B4FAE97A1CAFA7090082DA93 /* TNMultiGraphicView */ = {
+		B4FAE97A1CAFA7090082DA93 /* TNMultiLineChartView */ = {
 			isa = PBXGroup;
 			children = (
 				B4FAE97F1CAFA73C0082DA93 /* TNMultiGraphicView.swift */,
-				B4FAE97D1CAFA7370082DA93 /* TNBrokenLineGraphView.swift */,
-				B4FAE97B1CAFA7330082DA93 /* TNBrokenLineGraphModel.swift */,
+				B4FAE97D1CAFA7370082DA93 /* TNMultiLineChartContentView.swift */,
+				B4FAE97B1CAFA7330082DA93 /* TNMultiLineChartContentModel.swift */,
 			);
+			name = TNMultiLineChartView;
 			path = TNMultiGraphicView;
 			sourceTree = "<group>";
 		};
@@ -276,8 +277,8 @@
 				B4FAE9801CAFA73C0082DA93 /* TNMultiGraphicView.swift in Sources */,
 				B41651BC1CAB72400081CBB7 /* ViewController.swift in Sources */,
 				B41651BA1CAB72400081CBB7 /* AppDelegate.swift in Sources */,
-				B4FAE97E1CAFA7370082DA93 /* TNBrokenLineGraphView.swift in Sources */,
-				B4FAE97C1CAFA7330082DA93 /* TNBrokenLineGraphModel.swift in Sources */,
+				B4FAE97E1CAFA7370082DA93 /* TNMultiLineChartContentView.swift in Sources */,
+				B4FAE97C1CAFA7330082DA93 /* TNMultiLineChartContentModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
