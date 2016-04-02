@@ -19,18 +19,19 @@ class TNBrokenLineGraphView: UIView {
     // 绘制线的模型
     var brokenLineModelArr: [TNBrokenLineGraphModel] = []
     
-//    // x轴的坐标值间距
-//    var _xValueSpace: CGFloat = 40.0
-//    
+
+    // x轴的坐标值间距
+    var xValueSpace: CGFloat!
     
+
     // x轴坐标的个数
-    var xValueCount: Int = 3
+    var xValueCount: Int!
     // y轴坐标的个数
-    var yValueCount: Int = 10
+    var yValueCount: Int!
     
     // x,y 最大坐标值
-    var xMaxValue: CGFloat?
-    var yMaxValue: CGFloat?
+    var xMaxValue: CGFloat!
+    var yMaxValue: CGFloat!
     
     //原点坐标
     var _zeroPoint: CGPoint!

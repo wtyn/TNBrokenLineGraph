@@ -14,8 +14,9 @@
 		B41651C41CAB72400081CBB7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B41651C21CAB72400081CBB7 /* LaunchScreen.storyboard */; };
 		B41651CF1CAB72400081CBB7 /* TNBrokenLineGraphTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41651CE1CAB72400081CBB7 /* TNBrokenLineGraphTests.swift */; };
 		B41651DA1CAB72400081CBB7 /* TNBrokenLineGraphUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41651D91CAB72400081CBB7 /* TNBrokenLineGraphUITests.swift */; };
-		B41651E81CAB72600081CBB7 /* TNBrokenLineGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41651E71CAB72600081CBB7 /* TNBrokenLineGraphView.swift */; };
-		B41651EA1CAB729E0081CBB7 /* TNBrokenLineGraphModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41651E91CAB729E0081CBB7 /* TNBrokenLineGraphModel.swift */; };
+		B4FAE97C1CAFA7330082DA93 /* TNBrokenLineGraphModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FAE97B1CAFA7330082DA93 /* TNBrokenLineGraphModel.swift */; };
+		B4FAE97E1CAFA7370082DA93 /* TNBrokenLineGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FAE97D1CAFA7370082DA93 /* TNBrokenLineGraphView.swift */; };
+		B4FAE9801CAFA73C0082DA93 /* TNMultiGraphicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FAE97F1CAFA73C0082DA93 /* TNMultiGraphicView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,8 +50,9 @@
 		B41651D51CAB72400081CBB7 /* TNBrokenLineGraphUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TNBrokenLineGraphUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B41651D91CAB72400081CBB7 /* TNBrokenLineGraphUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TNBrokenLineGraphUITests.swift; sourceTree = "<group>"; };
 		B41651DB1CAB72400081CBB7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B41651E71CAB72600081CBB7 /* TNBrokenLineGraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TNBrokenLineGraphView.swift; sourceTree = "<group>"; };
-		B41651E91CAB729E0081CBB7 /* TNBrokenLineGraphModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TNBrokenLineGraphModel.swift; sourceTree = "<group>"; };
+		B4FAE97B1CAFA7330082DA93 /* TNBrokenLineGraphModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TNBrokenLineGraphModel.swift; sourceTree = "<group>"; };
+		B4FAE97D1CAFA7370082DA93 /* TNBrokenLineGraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TNBrokenLineGraphView.swift; sourceTree = "<group>"; };
+		B4FAE97F1CAFA73C0082DA93 /* TNMultiGraphicView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TNMultiGraphicView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,8 +105,7 @@
 			children = (
 				B41651B91CAB72400081CBB7 /* AppDelegate.swift */,
 				B41651BB1CAB72400081CBB7 /* ViewController.swift */,
-				B41651E71CAB72600081CBB7 /* TNBrokenLineGraphView.swift */,
-				B41651E91CAB729E0081CBB7 /* TNBrokenLineGraphModel.swift */,
+				B4FAE97A1CAFA7090082DA93 /* TNMultiGraphicView */,
 				B41651BD1CAB72400081CBB7 /* Main.storyboard */,
 				B41651C01CAB72400081CBB7 /* Assets.xcassets */,
 				B41651C21CAB72400081CBB7 /* LaunchScreen.storyboard */,
@@ -129,6 +130,16 @@
 				B41651DB1CAB72400081CBB7 /* Info.plist */,
 			);
 			path = TNBrokenLineGraphUITests;
+			sourceTree = "<group>";
+		};
+		B4FAE97A1CAFA7090082DA93 /* TNMultiGraphicView */ = {
+			isa = PBXGroup;
+			children = (
+				B4FAE97F1CAFA73C0082DA93 /* TNMultiGraphicView.swift */,
+				B4FAE97D1CAFA7370082DA93 /* TNBrokenLineGraphView.swift */,
+				B4FAE97B1CAFA7330082DA93 /* TNBrokenLineGraphModel.swift */,
+			);
+			path = TNMultiGraphicView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -262,10 +273,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B4FAE9801CAFA73C0082DA93 /* TNMultiGraphicView.swift in Sources */,
 				B41651BC1CAB72400081CBB7 /* ViewController.swift in Sources */,
-				B41651EA1CAB729E0081CBB7 /* TNBrokenLineGraphModel.swift in Sources */,
-				B41651E81CAB72600081CBB7 /* TNBrokenLineGraphView.swift in Sources */,
 				B41651BA1CAB72400081CBB7 /* AppDelegate.swift in Sources */,
+				B4FAE97E1CAFA7370082DA93 /* TNBrokenLineGraphView.swift in Sources */,
+				B4FAE97C1CAFA7330082DA93 /* TNBrokenLineGraphModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -492,6 +504,7 @@
 				B41651E01CAB72400081CBB7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B41651E11CAB72400081CBB7 /* Build configuration list for PBXNativeTarget "TNBrokenLineGraphTests" */ = {
 			isa = XCConfigurationList;
@@ -500,6 +513,7 @@
 				B41651E31CAB72400081CBB7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B41651E41CAB72400081CBB7 /* Build configuration list for PBXNativeTarget "TNBrokenLineGraphUITests" */ = {
 			isa = XCConfigurationList;
@@ -508,6 +522,7 @@
 				B41651E61CAB72400081CBB7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
