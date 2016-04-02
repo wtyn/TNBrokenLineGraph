@@ -305,6 +305,8 @@ class TNBrokenLineGraphView: UIView {
         
     }
     
+    
+    
     // 线的标题显示
     func addIdentificationShow(){
         
