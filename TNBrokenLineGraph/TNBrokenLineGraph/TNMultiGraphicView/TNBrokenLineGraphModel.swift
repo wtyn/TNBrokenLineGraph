@@ -11,9 +11,9 @@ import UIKit
 // 折线的属性模型
 class TNBrokenLineGraphModel: NSObject {
 
+    var titleStr: NSString? //该线的标题
     var lineColor: UIColor? // 线条的颜色
     var valueArr: [CGPoint]? // 线的值数组,存储点:[(10,20),(20,19)]
     var width: NSNumber? // 线宽
-    var unitStr: NSString? // 单位
-    
+  
 }
