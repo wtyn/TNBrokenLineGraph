@@ -6,6 +6,13 @@
 //  Copyright © 2016年 wwy. All rights reserved.
 //
 
+// 该代理方法可以设置x轴的值
+@objc protocol TNMultiLineChartViewDelegate: NSObjectProtocol {
+    optional   func setXAxisValuesShow(view: TNMultiLineChartView) ->([NSString])
+    optional   func setXValuePointShow(view: TNMultiLineChartView) ->([[NSString]])
+}
+
+
 import UIKit
 
 class TNMultiLineChartView: UIScrollView {
@@ -27,6 +34,9 @@ class TNMultiLineChartView: UIScrollView {
             
         }
     }
+    
+    // 代理
+    weak  var setXAxisValuesDelegate: TNMultiLineChartViewDelegate?
     
     // 动画显示时长,默认为1.5秒
     var annimationDuration: Double?
@@ -77,6 +87,7 @@ class TNMultiLineChartView: UIScrollView {
             contentWidth = self.bounds.size.width - 10
         }
         let brokenLineGraphViewFrame = CGRectMake(0, 0,contentWidth, self.bounds.size.height)
+        print(self.bounds.size.height)
         if _brokenLineGraphView == nil {
             _brokenLineGraphView = TNMultiLineChartContentView(frame: brokenLineGraphViewFrame)
             self.addSubview(_brokenLineGraphView)
@@ -91,6 +102,16 @@ class TNMultiLineChartView: UIScrollView {
         _brokenLineGraphView.xAxisUnit = self.xAxisUnit
         _brokenLineGraphView.yAxisUnit = self.yAxisUnit
         _brokenLineGraphView.showValues = self.showValues
+        if self.setXAxisValuesDelegate != nil {
+            if  self.setXAxisValuesDelegate!.respondsToSelector(#selector(TNMultiLineChartViewDelegate.setXAxisValuesShow(_:))){
+                _brokenLineGraphView.xAxisValuesArr = self.setXAxisValuesDelegate!.setXAxisValuesShow!(self)
+            }
+            
+           if  self.setXAxisValuesDelegate!.respondsToSelector(#selector(TNMultiLineChartViewDelegate.setXValuePointShow(_:))){
+                _brokenLineGraphView.xValuePointShowArr = self.setXAxisValuesDelegate!.setXValuePointShow!(self)
+            }
+            
+        }
         if self.annimationDuration != nil {
             _brokenLineGraphView.annimationDuration = self.annimationDuration
         }else{
@@ -101,6 +122,8 @@ class TNMultiLineChartView: UIScrollView {
         
     }
     
-    
+    deinit{
+        print("内存释放了1111")
+    }
     
 }
