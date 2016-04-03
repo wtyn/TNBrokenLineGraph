@@ -37,8 +37,13 @@ class TNMultiLineChartContentView: UIView {
     // x轴的坐标值间距
     var xValueSpace: CGFloat!
     
+    // 自定义x坐标值的显示
+    var xAxisValuesArr: [NSString]?
     
-
+    // 自定义折线点的x显示的值
+    var xValuePointShowArr: [[NSString]]?
+    
+    
     // x轴坐标的个数
     var xValueCount: Int!
     // y轴坐标的个数
@@ -105,7 +110,8 @@ class TNMultiLineChartContentView: UIView {
         // 绘制单位 和颜色线的标识
         self.addIdentificationShow()
         
-        
+        print(self.bounds)
+        print(_zeroPoint)
 
     }
     
@@ -137,7 +143,9 @@ class TNMultiLineChartContentView: UIView {
         
         
         // 获得原点坐标
-        _zeroPoint = CGPointMake(ySpace, height - xSpace)
+        // 最后一个值离端点为: 20
+        _zeroPoint = CGPointMake(ySpace, height - xSpace - 20)
+      
         // 绘制x轴和y轴
         // x轴
         UIGraphicsGetCurrentContext()
@@ -145,7 +153,7 @@ class TNMultiLineChartContentView: UIView {
         let xAxisPath = UIBezierPath()
         xAxisPath.moveToPoint(_zeroPoint)
         // x轴的终点坐标
-        let xAxisMaxPoint = CGPointMake(width, height - xSpace)
+        let xAxisMaxPoint = CGPointMake(width, _zeroPoint.y)
         xAxisPath.addLineToPoint(xAxisMaxPoint)
         CGContextAddPath(context, xAxisPath.CGPath)
         
@@ -172,12 +180,17 @@ class TNMultiLineChartContentView: UIView {
             let x = _zeroPoint.x + _xUnitValueLength * value
             
             if index != 0 {
-                xMarkerLine.drawAtPoint(CGPointMake(x - 1.5, height - 35), withAttributes: markerLineAttr)
+                xMarkerLine.drawAtPoint(CGPointMake(x - 1.5, _zeroPoint.y - 13), withAttributes: markerLineAttr)
+            }
+            let xValueStr: NSString
+            if self.xAxisValuesArr != nil {
+                xValueStr = self.xAxisValuesArr![index]
+            }else{
+               xValueStr = NSString(format: "%.1f", value)
             }
             
-            let xValueStr = NSString(format: "%.1f", value)
             let xValueSize = xValueStr.boundingRectWithSize(CGSize(width: CGFloat(MAXFLOAT) , height:  CGFloat(MAXFLOAT)), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: xValueAttr, context: nil)
-            xValueStr.drawAtPoint(CGPoint(x: x - xValueSize.width / 2.0,y: height - xSpace + 2), withAttributes: xValueAttr)
+            xValueStr.drawAtPoint(CGPoint(x: x - xValueSize.width / 2.0,y: _zeroPoint.y + 2), withAttributes: xValueAttr)
             
         }
         
@@ -209,8 +222,8 @@ class TNMultiLineChartContentView: UIView {
                 
                 let value = ( yMaxValue! / CGFloat(yValueCount)) * CGFloat(index)
                 let y = _zeroPoint.y - _yUnitValueLength * value
+               print(y)
                
-                print(y - _excessLength)
                 // 值
                 let yValueStr = NSString(format: "%.1f",value)
                 let yValueSize = yValueStr.boundingRectWithSize(CGSize(width: CGFloat(MAXFLOAT) , height:  CGFloat(MAXFLOAT)), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: xValueAttr, context: nil)
@@ -231,7 +244,7 @@ class TNMultiLineChartContentView: UIView {
             let font = UIFont.systemFontOfSize(14)
             let attr = [NSFontAttributeName: font]
             let xAxisUnitWidth = self.xAxisUnit!.boundingRectWithSize(CGSize(width: CGFloat(MAXFLOAT) , height:  CGFloat(MAXFLOAT)), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: attr, context: nil).width
-            self.xAxisUnit!.drawAtPoint(CGPointMake(self.bounds.size.width - xAxisUnitWidth - 5, self.bounds.size.height - 50), withAttributes: attr)
+            self.xAxisUnit!.drawAtPoint(CGPointMake(self.bounds.size.width - xAxisUnitWidth - 5, _zeroPoint.y - 30), withAttributes: attr)
             
         }
         
@@ -242,8 +255,6 @@ class TNMultiLineChartContentView: UIView {
     // 折线
     func drawBrokenLine() {
         
-        // 清除绘制的轨迹线
-        UIColor.clearColor().set()
         
         // 移除以前的折线
         if _allLayerArr.count > 0 {
@@ -254,6 +265,7 @@ class TNMultiLineChartContentView: UIView {
         
         
         //MARK: - 绘制折线
+        var modelIndex: Int = 0
         for lineModel in self.brokenLineModelArr {
             
             // 
@@ -277,18 +289,24 @@ class TNMultiLineChartContentView: UIView {
                 if index != 0 {
                     funcLinePath.addLineToPoint(point)
                     funcLinePath.moveToPoint(point)
-                    funcLinePath.stroke()
+//                    funcLinePath.stroke()
                 }
                 
                 // 绘制文字
                 if self.showValues {
                     
                     // 绘制值
-                    let valuePointStr = NSString(format: "(%.1f,%.1f)", pointValue.x,pointValue.y)
-                    let valuePointStrWid = valuePointStr.boundingRectWithSize(CGSizeMake(CGFloat(MAXFLOAT), CGFloat(MAXFLOAT)), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: valueAttr, context: nil).width
+                    let valuePointStr: NSString
+                    if self.xValuePointShowArr != nil {
+                        valuePointStr = NSString(format: "(%@,%.1f)", self.xValuePointShowArr![modelIndex][index],pointValue.y)
+                    }else{
+                        valuePointStr = NSString(format: "(%.1f,%.1f)", pointValue.x,pointValue.y)
+                    }
+                    let valuePointStrSize = valuePointStr.boundingRectWithSize(CGSizeMake(CGFloat(MAXFLOAT), CGFloat(MAXFLOAT)), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: valueAttr, context: nil)
+                    let valuePointStrWid = valuePointStrSize.width
                 
                     
-                    // 判断值显示在线的下面还是上面
+                    // 判断值显示在折线的下面还是上面
                     var ySpace: CGFloat
                     if prevousValueY <=  pointValue.y {
                         ySpace = -15.0
@@ -302,6 +320,13 @@ class TNMultiLineChartContentView: UIView {
                         valuePointStr.drawAtPoint(CGPointMake(totalWid - valuePointStrWid - 5, point.y + ySpace), withAttributes: valueAttr)
                     }
                     
+                    
+                    // 绘制点
+                    let onePoint: NSString  = "●"
+                    let onePointColor = lineModel.lineColor
+                    let onePointAtt: Dictionary<String,AnyObject> = [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: onePointColor]
+                    onePoint.drawAtPoint(CGPointMake(point.x - 4, point.y - 7 ), withAttributes: onePointAtt)
+                    
                 }
                 prevousValueY = pointValue.y
                 index =  index + 1
@@ -311,10 +336,10 @@ class TNMultiLineChartContentView: UIView {
            
             
             
-            
+    
             
             //创建CAShapLayer
-            let lineLayer = self.setUpLineLayer(lineModel.lineColor!, width: CGFloat(lineModel.width!))
+            let lineLayer = self.setUpLineLayer(lineModel.lineColor, width: CGFloat(lineModel.width))
             lineLayer.path = funcLinePath.CGPath
             
             let pathAnimation = CABasicAnimation(keyPath: "strokeEnd")
@@ -327,6 +352,8 @@ class TNMultiLineChartContentView: UIView {
             lineLayer.strokeEnd = 1.0
             self.layer.addSublayer(lineLayer)
             _allLayerArr.append(lineLayer)
+            
+            modelIndex = modelIndex + 1
             
         }
         
@@ -419,7 +446,7 @@ class TNMultiLineChartContentView: UIView {
 
                 titleStr.drawAtPoint( CGPointMake(_zeroPoint.x + 15.0, 5 + CGFloat(index * 15)) , withAttributes: attr)
                 
-                let lineAttr: Dictionary<String,AnyObject> = [NSForegroundColorAttributeName: lineModel.lineColor! , NSFontAttributeName: lineFont]
+                let lineAttr: Dictionary<String,AnyObject> = [NSForegroundColorAttributeName: lineModel.lineColor , NSFontAttributeName: lineFont]
                 lineStr.drawAtPoint(CGPointMake(maxTitleWidth + _zeroPoint.x + 20,  CGFloat(index * 15)), withAttributes: lineAttr)
             }
             index = index + 1
@@ -442,7 +469,10 @@ class TNMultiLineChartContentView: UIView {
     
 
     
-    
+    deinit{
+        print("内存释放了2222")
+    }
+
     
     
 
