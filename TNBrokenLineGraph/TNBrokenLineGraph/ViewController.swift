@@ -14,6 +14,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
         self.view.backgroundColor = UIColor.whiteColor()
         let btn = UIButton(type: .Custom)
         btn.frame = CGRectMake(50, 100, 80, 60)
@@ -26,7 +27,8 @@ class ViewController: UIViewController {
    
 
      func nextController(sender: AnyObject) {
-        self.navigationController?.pushViewController(TestViewController(), animated: true)
+//        self.navigationController?.pushViewController(TestViewController(), animated: true)
+        self.presentViewController(TestViewController(), animated: true, completion: nil)
     }
     
     
@@ -37,6 +39,16 @@ class ViewController: UIViewController {
         
     }
 
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        super.supportedInterfaceOrientations()
+        return .LandscapeRight
+    }
+    
+    override func shouldAutorotate() -> Bool {
+        
+        return true
+    }
+    
 
 }
 

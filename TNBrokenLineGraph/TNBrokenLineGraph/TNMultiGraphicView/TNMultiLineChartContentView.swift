@@ -144,7 +144,7 @@ class TNMultiLineChartContentView: UIView {
         
         // 获得原点坐标
         // 最后一个值离端点为: 20
-        _zeroPoint = CGPointMake(ySpace, height - xSpace - 20)
+        _zeroPoint = CGPointMake(ySpace, height - xSpace - 5)
       
         // 绘制x轴和y轴
         // x轴

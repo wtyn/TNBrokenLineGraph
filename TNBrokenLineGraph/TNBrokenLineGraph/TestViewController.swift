@@ -8,14 +8,14 @@
 
 import UIKit
 
-class TestViewController: UIViewController,TNMultiLineChartViewDelegate {
+class TestViewController: SuperTestViewController,TNMultiLineChartViewDelegate {
 
     var chartView: TNMultiLineChartView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
       
-        self.navigationController?.navigationBarHidden = true
+//        self.navigationController?.navigationBarHidden = true
         self.view.backgroundColor = UIColor.whiteColor()
         self.creatChartView()
         
@@ -32,8 +32,9 @@ class TestViewController: UIViewController,TNMultiLineChartViewDelegate {
    
     func creatChartView() {
         
+        print(self.view.bounds)
         
-        chartView = TNMultiLineChartView(frame: CGRectMake(0, 64, self.view.bounds.width, 200))
+        chartView = TNMultiLineChartView(frame: CGRectMake(0,20,self.view.bounds.height , self.view.bounds.width -  20))
         chartView.contentSize = CGSizeMake(self.view.bounds.width * 3, 0)
         chartView.setXAxisValuesDelegate = self
         chartView.xMaxValue = 8
@@ -112,12 +113,17 @@ class TestViewController: UIViewController,TNMultiLineChartViewDelegate {
         self.navigationController!.popViewControllerAnimated(true)
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesBegan(touches, withEvent: event)
-        self.navigationController!.popViewControllerAnimated(true)
+    // 横屏和竖屏设置
+    // IOS6以后，屏幕旋转机制发生了重大改变，将原来各ViewController自己控制旋转改为了在RootVC中统一控制。如果你的RootVC是NavigationController，那就需要写个它的子类，你才能重写这三个旋转控制方法。在方法里，你都有办法知道当前旋转的是哪个Controller，然后做针对性的处理。
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        
+        return .LandscapeRight
     }
     
-    
+    override func shouldAutorotate() -> Bool {
+        
+        return true
+    }
     
     
 }
