@@ -36,10 +36,10 @@ class TNMultiLineChartView: UIScrollView {
     }
     
     // 代理
-    weak  var setXAxisValuesDelegate: TNMultiLineChartViewDelegate?
+    weak var setXAxisValuesDelegate: TNMultiLineChartViewDelegate?
     
     // 动画显示时长,默认为1.5秒
-    var annimationDuration: Double?
+    var annimationDuration: Double = 1.5
     
     // 是否显示值
     var showValues: Bool = false // 默认不显示
@@ -112,11 +112,7 @@ class TNMultiLineChartView: UIScrollView {
             }
             
         }
-        if self.annimationDuration != nil {
-            _brokenLineGraphView.annimationDuration = self.annimationDuration
-        }else{
-             _brokenLineGraphView.annimationDuration = 1.5
-        }
+        _brokenLineGraphView.annimationDuration = self.annimationDuration
         _brokenLineGraphView.brokenLineModelArr = self.brokenLineModelArr
         
         
