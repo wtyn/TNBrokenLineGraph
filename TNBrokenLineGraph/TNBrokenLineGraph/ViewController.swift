@@ -27,8 +27,8 @@ class ViewController: UIViewController {
    
 
      func nextController(sender: AnyObject) {
-//        self.navigationController?.pushViewController(TestViewController(), animated: true)
-        self.presentViewController(TestViewController(), animated: true, completion: nil)
+        self.navigationController?.pushViewController(TestViewController(), animated: true)
+        
     }
     
     

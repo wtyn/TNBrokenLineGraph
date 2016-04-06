@@ -19,24 +19,11 @@ class TNMultiLineChartView: UIScrollView {
 
     
     // 绘制线的模型
-    var _brokenLineModelArr: [TNMultiLineChartContentModel] = []
-    var brokenLineModelArr: [TNMultiLineChartContentModel] {
-        get{
-            return _brokenLineModelArr
-        }
+    var brokenLineModelArr: NSArray = []
         
-        set {
-            _brokenLineModelArr = newValue
-            if _brokenLineGraphView != nil {
-                
-                self.addBrokenLineGraphView()
-            }
-            
-        }
-    }
     
     // 代理
-    weak var setXAxisValuesDelegate: TNMultiLineChartViewDelegate?
+    weak var multiLineChartViewDelegate: TNMultiLineChartViewDelegate?
     
     // 动画显示时长,默认为1.5秒
     var annimationDuration: Double = 1.5
@@ -55,8 +42,8 @@ class TNMultiLineChartView: UIScrollView {
     var yValueCount: Int = 10
     
     // x,y 最大坐标值
-    var xMaxValue: CGFloat?
-    var yMaxValue: CGFloat?
+    var xMaxValue: CGFloat = 0.0
+    var yMaxValue: CGFloat = 0.0
     
     
     var _brokenLineGraphView: TNMultiLineChartContentView!
@@ -94,7 +81,7 @@ class TNMultiLineChartView: UIScrollView {
         }else{
             _brokenLineGraphView.frame = brokenLineGraphViewFrame
         }
-        _brokenLineGraphView.brokenLineModelArr = self.brokenLineModelArr
+        
         _brokenLineGraphView.xValueCount = self.xValueCount
         _brokenLineGraphView.xMaxValue = self.xMaxValue
         _brokenLineGraphView.yValueCount = self.yValueCount
@@ -102,20 +89,26 @@ class TNMultiLineChartView: UIScrollView {
         _brokenLineGraphView.xAxisUnit = self.xAxisUnit
         _brokenLineGraphView.yAxisUnit = self.yAxisUnit
         _brokenLineGraphView.showValues = self.showValues
-        if self.setXAxisValuesDelegate != nil {
-            if  self.setXAxisValuesDelegate!.respondsToSelector(#selector(TNMultiLineChartViewDelegate.setXAxisValuesShow(_:))){
-                _brokenLineGraphView.xAxisValuesArr = self.setXAxisValuesDelegate!.setXAxisValuesShow!(self)
+        if self.multiLineChartViewDelegate != nil {
+            if  self.multiLineChartViewDelegate!.respondsToSelector(#selector(TNMultiLineChartViewDelegate.setXAxisValuesShow(_:))){
+                _brokenLineGraphView.xAxisValuesArr = self.multiLineChartViewDelegate!.setXAxisValuesShow!(self)
             }
             
-           if  self.setXAxisValuesDelegate!.respondsToSelector(#selector(TNMultiLineChartViewDelegate.setXValuePointShow(_:))){
-                _brokenLineGraphView.xValuePointShowArr = self.setXAxisValuesDelegate!.setXValuePointShow!(self)
+           if  self.multiLineChartViewDelegate!.respondsToSelector(#selector(TNMultiLineChartViewDelegate.setXValuePointShow(_:))){
+                _brokenLineGraphView.xValuePointShowArr = self.multiLineChartViewDelegate!.setXValuePointShow!(self)
             }
             
         }
         _brokenLineGraphView.annimationDuration = self.annimationDuration
-        _brokenLineGraphView.brokenLineModelArr = self.brokenLineModelArr
+        _brokenLineGraphView.brokenLineModelArr = self.brokenLineModelArr as! [TNMultiLineChartContentModel]
         
         
+    }
+    
+    
+    //MARK: - 刷新视图
+    func refreshGraphicView() -> Void {
+         self.addBrokenLineGraphView()
     }
     
     deinit{
