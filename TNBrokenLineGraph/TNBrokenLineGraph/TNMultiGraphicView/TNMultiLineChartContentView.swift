@@ -211,7 +211,11 @@ class TNMultiLineChartContentView: UIView {
         
         // y分割线
         let yMarkLine: NSString = "—"
-        _yUnitValueLength = (_zeroPoint.y - _excessLength) / CGFloat(yMaxValue)
+        if yMaxValue == 0 {
+            _yUnitValueLength = 0
+        }else{
+            _yUnitValueLength = (_zeroPoint.y - _excessLength) / CGFloat(yMaxValue)
+        }
         for index in 0 ... yValueCount  {
             // 分割线
             if index != 0 {
