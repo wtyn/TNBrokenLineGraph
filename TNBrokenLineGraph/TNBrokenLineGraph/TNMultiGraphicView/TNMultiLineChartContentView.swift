@@ -89,14 +89,10 @@ class TNMultiLineChartContentView: UIView {
     override func drawRect(rect: CGRect) {
         super.drawRect(rect)
         
-        if xMaxValue == nil  {
+        if xMaxValue == 0.0 {
             return
         }
         
-        if yMaxValue == nil {
-            return
-        }
-       
 
         // 绘制坐标系
         self.drawCoordinate()
@@ -175,7 +171,7 @@ class TNMultiLineChartContentView: UIView {
         for index in 0 ... xValueCount {
             // 分割线
             // 值
-            let value = ( xMaxValue! / CGFloat(xValueCount)) * CGFloat(index)
+            let value = (CGFloat(xMaxValue) / CGFloat(xValueCount)) * CGFloat(index)
             // 坐标
             let x = _zeroPoint.x + _xUnitValueLength * value
             
@@ -215,12 +211,12 @@ class TNMultiLineChartContentView: UIView {
         
         // y分割线
         let yMarkLine: NSString = "—"
-        _yUnitValueLength = (_zeroPoint.y - _excessLength) / yMaxValue!
+        _yUnitValueLength = (_zeroPoint.y - _excessLength) / CGFloat(yMaxValue)
         for index in 0 ... yValueCount  {
             // 分割线
             if index != 0 {
                 
-                let value = ( yMaxValue! / CGFloat(yValueCount)) * CGFloat(index)
+                let value = ( CGFloat(yMaxValue) / CGFloat(yValueCount)) * CGFloat(index)
                 let y = _zeroPoint.y - _yUnitValueLength * value
                print(y)
                
@@ -275,7 +271,8 @@ class TNMultiLineChartContentView: UIView {
             
             // 获得路径
             let funcLinePath = UIBezierPath()
-            let firstPoint = self.getPointFromeValues(lineModel.valueArr![0])
+            
+            let firstPoint = self.getPointFromeValues((lineModel.valueArr![0] as! NSValue).CGPointValue())
             funcLinePath.moveToPoint(firstPoint)
             funcLinePath.lineCapStyle = .Round
             funcLinePath.lineJoinStyle = .Round
@@ -284,8 +281,8 @@ class TNMultiLineChartContentView: UIView {
             var prevousValueY: CGFloat = 0.0
             
             for pointValue in lineModel.valueArr! {
-                
-                let point = self.getPointFromeValues(pointValue)
+                let pointTrans = (pointValue as! NSValue).CGPointValue() // 图表的值得点
+                let point = self.getPointFromeValues(pointTrans) // 坐标的点
                 if index != 0 {
                     funcLinePath.addLineToPoint(point)
                     funcLinePath.moveToPoint(point)
@@ -298,9 +295,9 @@ class TNMultiLineChartContentView: UIView {
                     // 绘制值
                     let valuePointStr: NSString
                     if self.xValuePointShowArr != nil {
-                        valuePointStr = NSString(format: "(%@,%.1f)", self.xValuePointShowArr![modelIndex][index],pointValue.y)
+                        valuePointStr = NSString(format: "(%@,%.1f)", self.xValuePointShowArr![modelIndex][index],pointTrans.y)
                     }else{
-                        valuePointStr = NSString(format: "(%.1f,%.1f)", pointValue.x,pointValue.y)
+                        valuePointStr = NSString(format: "(%.1f,%.1f)", pointTrans.x,pointTrans.y)
                     }
                     let valuePointStrSize = valuePointStr.boundingRectWithSize(CGSizeMake(CGFloat(MAXFLOAT), CGFloat(MAXFLOAT)), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: valueAttr, context: nil)
                     let valuePointStrWid = valuePointStrSize.width
@@ -308,7 +305,7 @@ class TNMultiLineChartContentView: UIView {
                     
                     // 判断值显示在折线的下面还是上面
                     var ySpace: CGFloat
-                    if prevousValueY <=  pointValue.y {
+                    if prevousValueY <=  pointTrans.y {
                         ySpace = -15.0
                     }else{
                         ySpace = 0.0
@@ -328,7 +325,7 @@ class TNMultiLineChartContentView: UIView {
                     onePoint.drawAtPoint(CGPointMake(point.x - 4, point.y - 7 ), withAttributes: onePointAtt)
                     
                 }
-                prevousValueY = pointValue.y
+                prevousValueY = pointTrans.y
                 index =  index + 1
                 
             }
