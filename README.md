@@ -5,6 +5,10 @@
 一: 三个文件,但只需要使用两个类. 
 
   TNBrokenLineGraphView 和 TNMultiLineChartContentModel
+  
+  
+  
+  
 
 二: TNBrokenLineGraphView的属性说明 
 
@@ -23,6 +27,10 @@
    (5) xAxisUnit x轴的单位
  
    (6) yAxisUnit y轴的单位
+   
+   
+   
+   
  
    // 内容属性
  
@@ -33,6 +41,12 @@
    (9) annimationDuration 动画显示折线的绘制时间
  
    (10) showValues 是否显示绘制点的值
+ 
+ 
+ 
+ 
+ 
+ 
  
  
  
