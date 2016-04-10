@@ -6,9 +6,10 @@
 
   TNBrokenLineGraphView 和 TNMultiLineChartContentModel
   
-  
-  
-  
+    
+      
+      
+      
 
 二: TNBrokenLineGraphView的属性说明 
 
