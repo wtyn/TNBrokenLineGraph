@@ -24,16 +24,12 @@ TNBrokenLineGraphView 和 TNMultiLineChartContentModel
  
  (6) yAxisUnit y轴的单位
  
- 
- 
  // 内容属性
  
  (7) brokenLineModelArr 绘制线的模型数组,想绘制几条线,就需要几个模型.
  
- (8) multiLineChartViewDelegate 代理
+ (8) multiLineChartViewDelegate 代理,实现,x轴显示的自定义和显示值得自定义
  
-    实现,x轴显示的自定义和显示值得自定义
-    
  (9) annimationDuration 动画显示折线的绘制时间
  
  (10) showValues 是否显示绘制点的值
