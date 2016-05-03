@@ -18,7 +18,7 @@ class TNMultiLineChartContentModel: NSObject {
     var width: CGFloat = 1.0 // 线宽
     
     deinit{
-        print("内存释放了333")
+       
     }
 
   

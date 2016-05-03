@@ -1,8 +1,8 @@
 //
 //  AppDelegate.swift
-//  TNBrokenLineGraph
+//  TNInstrumentPanel
 //
-//  Created by wwy on 16/3/30.
+//  Created by wwy on 16/5/3.
 //  Copyright © 2016年 wwy. All rights reserved.
 //
 
@@ -15,8 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        
-        
+        // Override point for customization after application launch.
         return true
     }
 

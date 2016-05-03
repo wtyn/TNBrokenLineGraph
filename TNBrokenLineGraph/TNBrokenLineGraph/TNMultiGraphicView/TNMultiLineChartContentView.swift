@@ -105,9 +105,7 @@ class TNMultiLineChartContentView: UIView {
         
         // 绘制单位 和颜色线的标识
         self.addIdentificationShow()
-        
-        print(self.bounds)
-        print(_zeroPoint)
+      
 
     }
     
@@ -210,30 +208,33 @@ class TNMultiLineChartContentView: UIView {
         CGContextStrokePath(context)
         
         // y分割线
-        let yMarkLine: NSString = "—"
         if yMaxValue == 0 {
             _yUnitValueLength = 0
         }else{
-            _yUnitValueLength = (_zeroPoint.y - _excessLength) / CGFloat(yMaxValue)
-        }
-        for index in 0 ... yValueCount  {
-            // 分割线
-            if index != 0 {
-                
-                let value = ( CGFloat(yMaxValue) / CGFloat(yValueCount)) * CGFloat(index)
-                let y = _zeroPoint.y - _yUnitValueLength * value
-               print(y)
-               
-                // 值
-                let yValueStr = NSString(format: "%.1f",value)
-                let yValueSize = yValueStr.boundingRectWithSize(CGSize(width: CGFloat(MAXFLOAT) , height:  CGFloat(MAXFLOAT)), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: xValueAttr, context: nil)
-                yValueStr.drawAtPoint(CGPoint(x: ySpace - yValueSize.width - 2,y: y - yValueSize.height / 2.0), withAttributes: xValueAttr)
-                
-                 yMarkLine.drawAtPoint(CGPointMake(ySpace + 3 ,y - yValueSize.height / 2.0), withAttributes: markerLineAttr)
+            
+            let yMarkLine: NSString = "—"
+             _yUnitValueLength = (_zeroPoint.y - _excessLength) / CGFloat(yMaxValue)
+            for index in 0 ... yValueCount  {
+                // 分割线
+                if index != 0 {
+                    
+                    let value = ( CGFloat(yMaxValue) / CGFloat(yValueCount)) * CGFloat(index)
+                    let y = _zeroPoint.y - _yUnitValueLength * value
+                    
+                    
+                    // 值
+                    let yValueStr = NSString(format: "%.1f",value)
+                    let yValueSize = yValueStr.boundingRectWithSize(CGSize(width: CGFloat(MAXFLOAT) , height:  CGFloat(MAXFLOAT)), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: xValueAttr, context: nil)
+                    yValueStr.drawAtPoint(CGPoint(x: ySpace - yValueSize.width - 2,y: y - yValueSize.height / 2.0), withAttributes: xValueAttr)
+                    
+                    yMarkLine.drawAtPoint(CGPointMake(ySpace + 3 ,y - yValueSize.height / 2.0), withAttributes: markerLineAttr)
+                    
+                }
                 
             }
-            
+
         }
+       
         
     }
     
@@ -396,7 +397,12 @@ class TNMultiLineChartContentView: UIView {
                         titleStr = lineModel.titleStr!
                         
                     }else{
-                        titleStr = NSString.init(format: "%@(%@)",lineModel.titleStr!,self.yAxisUnit!)
+                        if self.yAxisUnit == nil {
+                            titleStr = lineModel.titleStr!
+                        }else{
+                            titleStr = NSString.init(format: "%@(%@)",lineModel.titleStr!,self.yAxisUnit!)
+                        }
+                        
                     }
 
                     let titleSize = titleStr.boundingRectWithSize(CGSizeMake(CGFloat(MAXFLOAT), CGFloat(MAXFLOAT)), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: attr, context: nil)
@@ -417,7 +423,12 @@ class TNMultiLineChartContentView: UIView {
                     
                 }else  { // 有单位
                     if lineModel.titleStr != nil { // 有标题
-                        titleStr = NSString.init(format: "%@(%@)",lineModel.titleStr!,self.yAxisUnit!)
+                        if lineModel.titleStr!.length > 0 {
+                            titleStr = NSString.init(format: "%@(%@)",lineModel.titleStr!,self.yAxisUnit!)
+                        }else{
+                            titleStr = self.yAxisUnit!
+                        }
+                        
                         titleStr.drawAtPoint( CGPointMake(_zeroPoint.x + 15.0, 5 ) , withAttributes: attr)
                         return
                     }else{ // 没有标题

@@ -8,7 +8,7 @@
 
 // 该代理方法可以设置x轴的值
 @objc protocol TNMultiLineChartViewDelegate: NSObjectProtocol {
-    optional   func setXAxisValuesShow(view: TNMultiLineChartView) ->([NSString])
+    optional   func setXAxisValuesShow(view: TNMultiLineChartView) ->([NSString]) // 注意,数组个数比x轴的值个数多1
     optional   func setXValuePointShow(view: TNMultiLineChartView) ->([[NSString]])
 }
 
@@ -16,6 +16,23 @@
 import UIKit
 
 class TNMultiLineChartView: UIScrollView {
+
+    
+    // x轴坐标的个数
+    var xValueCount: Int = 3
+    // y轴坐标的个数
+    var yValueCount: Int = 10
+    
+    // x,y 最大坐标值
+    var xMaxValue: CGFloat = 0.0
+    var yMaxValue: CGFloat = 0.0
+    
+    // 单位
+    var xAxisUnit: NSString?
+    var yAxisUnit: NSString?
+    
+
+    
 
     
     // 绘制线的模型
@@ -31,32 +48,10 @@ class TNMultiLineChartView: UIScrollView {
     // 是否显示值
     var showValues: Bool = false // 默认不显示
     
-    // 单位
-    var xAxisUnit: NSString?
-    var yAxisUnit: NSString?
-
-
-    // x轴坐标的个数
-    var xValueCount: Int = 3
-    // y轴坐标的个数
-    var yValueCount: Int = 10
-    
-    // x,y 最大坐标值
-    var xMaxValue: CGFloat = 0.0
-    var yMaxValue: CGFloat = 0.0
-    
     
     var _brokenLineGraphView: TNMultiLineChartContentView!
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.backgroundColor = UIColor.whiteColor()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+
     
     
     override func drawRect(rect: CGRect) {
@@ -74,7 +69,7 @@ class TNMultiLineChartView: UIScrollView {
             contentWidth = self.bounds.size.width - 10
         }
         let brokenLineGraphViewFrame = CGRectMake(0, 0,contentWidth, self.bounds.size.height)
-        print(self.bounds.size.height)
+       
         if _brokenLineGraphView == nil {
             _brokenLineGraphView = TNMultiLineChartContentView(frame: brokenLineGraphViewFrame)
             self.addSubview(_brokenLineGraphView)
@@ -90,11 +85,11 @@ class TNMultiLineChartView: UIScrollView {
         _brokenLineGraphView.yAxisUnit = self.yAxisUnit
         _brokenLineGraphView.showValues = self.showValues
         if self.multiLineChartViewDelegate != nil {
-            if  self.multiLineChartViewDelegate!.respondsToSelector(#selector(TNMultiLineChartViewDelegate.setXAxisValuesShow(_:))){
+            if  self.multiLineChartViewDelegate!.respondsToSelector("setXAxisValuesShow:"){
                 _brokenLineGraphView.xAxisValuesArr = self.multiLineChartViewDelegate!.setXAxisValuesShow!(self)
             }
             
-           if  self.multiLineChartViewDelegate!.respondsToSelector(#selector(TNMultiLineChartViewDelegate.setXValuePointShow(_:))){
+           if  self.multiLineChartViewDelegate!.respondsToSelector("setXValuePointShow:"){
                 _brokenLineGraphView.xValuePointShowArr = self.multiLineChartViewDelegate!.setXValuePointShow!(self)
             }
             
