@@ -8,8 +8,10 @@
 
 // 该代理方法可以设置x轴的值
 @objc protocol TNMultiLineChartViewDelegate: NSObjectProtocol {
+    
     optional   func setXAxisValuesShow(view: TNMultiLineChartView) ->([NSString]) // 注意,数组个数比x轴的值个数多1
     optional   func setXValuePointShow(view: TNMultiLineChartView) ->([[NSString]])
+    
 }
 
 
